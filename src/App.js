@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { isLoggedInState } from "./recoil/atoms";
+import { userNameSelector } from "./recoil/selectors";
+
+function LoginButton() {
+  const [isLoggedIn, setLoggedIn] = useRecoilState(isLoggedInState);
+
+  const handleClick = () => {
+    setLoggedIn(!isLoggedIn); // 상태 업데이트
+  };
+
+  return (
+    <button onClick={handleClick}>{isLoggedIn ? "Logout" : "Login"}</button>
+  );
+}
+
+function WelcomeMessage() {
+  const userName = useRecoilValue(userNameSelector);
+
+  return <p>안녕하세요, {userName}님!</p>;
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Recoil Example</h1>
+      <LoginButton />
+      <WelcomeMessage />
     </div>
   );
 }
